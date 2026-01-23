@@ -20,6 +20,7 @@ namespace Code_Traps
             this.chip = chip;
             chip.PostExecute += EvalTraps;
             chip.OnDelete += (c) => { Remove(c); };
+            chip.OnReset += Reset;
         }
 
         public void Suspend()
@@ -79,8 +80,16 @@ namespace Code_Traps
             if (contexts.TryGetValue(chip, out var context))
             {
                 chip.PostExecute -= context.EvalTraps;
+                chip.OnReset -= Reset;
                 contexts.Remove(chip);
             }
         }
-    }
+
+        private static void Reset(ChipWrapper chip)
+        {
+            var ctx = For(chip);
+            ctx.suspended = false;
+            ctx.returnIndex = -1;
+            ctx.traps.Clear();
+        }
 }
