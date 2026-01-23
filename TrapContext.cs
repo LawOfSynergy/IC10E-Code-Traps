@@ -10,8 +10,8 @@ namespace Code_Traps
 
         protected readonly ChipWrapper chip;
 
-        public bool suspended { get; protected set; } = false;
-        public int returnIndex { get; protected set; } = -1;
+        public bool Suspended { get; protected set; } = false;
+        public int ReturnIndex { get; protected set; } = -1;
 
         public readonly Dictionary<int, Trap> traps = new Dictionary<int, Trap>();
 
@@ -25,41 +25,41 @@ namespace Code_Traps
 
         public void Suspend()
         {
-            if (suspended || returnIndex != -1) return; //no-op if already suspended
-            suspended = true;
+            if (Suspended || ReturnIndex != -1) return; //no-op if already suspended
+            Suspended = true;
         }
 
         public void Enter(int returnIndex)
         {
-            if (suspended || returnIndex != -1) return; //TODO throw an error?
-            suspended = true;
-            this.returnIndex = returnIndex;
+            if (Suspended || returnIndex != -1) return; //TODO throw an error?
+            Suspended = true;
+            this.ReturnIndex = returnIndex;
         }
 
         public int Exit(int nextIndex)
         {
-            if (!suspended || returnIndex == -1)
+            if (!Suspended || ReturnIndex == -1)
             {
-                return nextIndex+1; //no-op and proceed to next instruction if not suspended
+                return nextIndex + 1; //no-op and proceed to next instruction if not suspended
             }
-            suspended = false;
-            var rv = returnIndex;
-            returnIndex = -1;
+            Suspended = false;
+            var rv = ReturnIndex;
+            ReturnIndex = -1;
             return rv;
         }
 
         public void Clear()
         {
-            if (!suspended || returnIndex == -1) return; //no-op if already clear
-            suspended = false;
-            returnIndex = -1;
+            if (!Suspended || ReturnIndex == -1) return; //no-op if already clear
+            Suspended = false;
+            ReturnIndex = -1;
         }
 
         private void EvalTraps(OpContext op, ref int nextIndex)
         {
             var e = traps.Values.GetEnumerator();
 
-            while (!suspended && e.MoveNext())
+            while (!Suspended && e.MoveNext())
             {
                 e.Current.Eval(ref nextIndex);
             }
@@ -88,8 +88,9 @@ namespace Code_Traps
         private static void Reset(ChipWrapper chip)
         {
             var ctx = For(chip);
-            ctx.suspended = false;
-            ctx.returnIndex = -1;
+            ctx.Suspended = false;
+            ctx.ReturnIndex = -1;
             ctx.traps.Clear();
         }
+    }
 }
