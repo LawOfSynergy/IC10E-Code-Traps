@@ -29,12 +29,19 @@ namespace Code_Traps
 
         public void Eval(ref int nextIndex)
         {
+            if (context.Suspended) return;
+
             var val = provider();
-            if (val != previousValue && comparer(previousValue, val, fixpoint, error))
+            if (val != previousValue)
             {
-                context.Enter(nextIndex);
-                nextIndex = jumpTo;
+                if (comparer(previousValue, val, fixpoint, error))
+                {
+                    context.Enter(nextIndex);
+                    nextIndex = jumpTo;
+                }
+                previousValue = val;
             }
+            
         }
 
         public void Reset() { previousValue = provider(); }

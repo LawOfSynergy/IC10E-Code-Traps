@@ -11,7 +11,7 @@ namespace Code_Traps
 
         public DeviceTrapOperation(ChipWrapper chip, int lineNumber, string jumpArg, bool relativeJump, string deviceArg, string indexArg, Func<double, double, double, double, bool> comparer) : base(chip, lineNumber, jumpArg, relativeJump, indexArg, comparer)
         {
-            ReadableGetter = TrapOpCode.Device.Build(new Binding(chip, lineNumber, deviceArg));
+            ReadableGetter = TrapOpCode.Device.Bind(chip, lineNumber, deviceArg);
         }
 
         protected override Func<double> getProvider()

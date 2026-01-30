@@ -25,21 +25,26 @@ namespace Code_Traps
 
         public void Suspend()
         {
-            if (Suspended || ReturnIndex != -1) return; //no-op if already suspended
+            Plugin.Log.LogInfo($"TrapContext: Suspending trap evaluation");
+            if (Suspended) return; //no-op if already suspended
             Suspended = true;
+            ReturnIndex = -1;
         }
 
         public void Enter(int returnIndex)
         {
-            if (Suspended || returnIndex != -1) return; //TODO throw an error?
+            Plugin.Log.LogInfo($"TrapContext: Entering trap, returnIndex={returnIndex}");
+            if (Suspended || ReturnIndex != -1) return; //TODO throw an error?
             Suspended = true;
-            this.ReturnIndex = returnIndex;
+            ReturnIndex = returnIndex;
         }
 
         public int Exit(int nextIndex)
         {
+            Plugin.Log.LogInfo($"TrapContext: Exiting trap, Suspended={Suspended}, ReturnIndex={ReturnIndex}, nextIndex={nextIndex}");
             if (!Suspended || ReturnIndex == -1)
             {
+                Plugin.Log.LogInfo($"TrapContext: Not valid, proceeding to next instruction. ");
                 return nextIndex + 1; //no-op and proceed to next instruction if not suspended
             }
             Suspended = false;
@@ -50,7 +55,8 @@ namespace Code_Traps
 
         public void Clear()
         {
-            if (!Suspended || ReturnIndex == -1) return; //no-op if already clear
+            Plugin.Log.LogInfo($"TrapContext: Clearing trap state");
+            if (!Suspended) return; //no-op if already clear
             Suspended = false;
             ReturnIndex = -1;
         }

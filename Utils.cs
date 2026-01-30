@@ -52,5 +52,10 @@ namespace Code_Traps
         {
             return (prev, curr, fixpoint, error) => Math.Abs(curr - fixpoint) > error;
         }
+
+        public static Func<double, double, double, double, bool> Mod()
+        {
+            return (prev, curr, fixpoint, divisor) => (int)curr/(int)divisor == (int)fixpoint;
+        }
     }
 }

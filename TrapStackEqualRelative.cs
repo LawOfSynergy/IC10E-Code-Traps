@@ -9,7 +9,7 @@ namespace Code_Traps
     {
         public static readonly HelpString[] Args = { Offset, Device, Index, Fixpoint, Error };
 
-        public TrapStackEqualRelative() : base("trseq") { }
+        public TrapStackEqualRelative() : base("tsreq") { }
 
         public override void Accept(int lineNumber, string[] source)
         {

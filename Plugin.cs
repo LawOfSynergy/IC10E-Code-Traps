@@ -5,6 +5,7 @@ using IC10_Extender;
 namespace Code_Traps
 {
     [BepInPlugin("net.lawofsynergy.stationeers.trap", "[IC10E] Code Traps", "0.0.0.1")]
+    [BepInDependency("net.lawofsynergy.stationeers.ic10e")]
     public class Plugin : BaseUnityPlugin
     {
         public static ManualLogSource Log;

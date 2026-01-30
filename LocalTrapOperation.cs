@@ -17,21 +17,21 @@ namespace Code_Traps
 
         public LocalTrapOperation(ChipWrapper chip, int lineNumber, string jumpArg, bool relativeJump, string indexArg, Func<double, double, double, double, bool> comparer) : base(chip, lineNumber)
         {
-            IndexGetter = TrapOpCode.Index.Build(new Binding(chip, lineNumber, indexArg));
-            JumpGetter = relativeJump ? TrapOpCode.Offset.Build(new Binding(chip, lineNumber, jumpArg)) : TrapOpCode.Jump.Build(new Binding(chip, lineNumber, jumpArg));
+            IndexGetter = TrapOpCode.Index.Bind(chip, lineNumber, indexArg);
+            JumpGetter = relativeJump ? TrapOpCode.Offset.Bind(chip, lineNumber, jumpArg) : TrapOpCode.Jump.Bind(chip, lineNumber, jumpArg);
             this.relativeJump = relativeJump;
             this.comparer = comparer;
         }
 
         public LocalTrapOperation WithFixpoint(string fixpointArg)
         {
-            FixpointGetter = TrapOpCode.Fixpoint.Build(new Binding(Chip, LineNumber, fixpointArg));
+            FixpointGetter = TrapOpCode.Fixpoint.Bind(Chip, LineNumber, fixpointArg);
             return this;
         }
 
         public LocalTrapOperation WithError(string errorArg)
         {
-            ErrorGetter = TrapOpCode.Error.Build(new Binding(Chip, LineNumber, errorArg));
+            ErrorGetter = TrapOpCode.Error.Bind(Chip, LineNumber, errorArg);
             return this;
         }
 
