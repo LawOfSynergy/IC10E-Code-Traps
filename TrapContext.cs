@@ -61,7 +61,7 @@ namespace Code_Traps
             ReturnIndex = -1;
         }
 
-        private void EvalTraps(OpContext op, ref int nextIndex)
+        private void EvalTraps(Operation op, ref int nextIndex)
         {
             var e = traps.Values.GetEnumerator();
 
